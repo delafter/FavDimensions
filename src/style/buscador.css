@@ -1,0 +1,90 @@
+.buscador {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 50%;
+  background-size: cover;
+  margin-top: 50px;
+  border-radius: 10px;
+  height: 200px;
+  border: 2px solid #f5f2f2;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.container {
+  margin-top: 10px;
+  margin-left: 400px;
+  height: 47vh; /* no se si es buena practica esto */
+}
+
+.imagen {
+  margin-bottom: 40px;
+  width: 200px;
+  cursor: pointer;
+  transition: transform 0.5s;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  margin-left: 1px;
+}
+
+.imagen:hover {
+  transform: scale(1.1);
+}
+
+.imagen {
+  box-shadow: var(--box-shadow);
+}
+
+h6,
+h1 {
+  color: var(--text-color);
+}
+
+.icono {
+  color: var(--text-color);
+  width: 40px;
+  height: 40px;
+  margin: 10px;
+}
+.containerColor {
+  background-color: var(--background-color);
+  width: 100%;
+  padding-left: 30px;
+  padding-right: 30px;
+  position: relative;
+}
+
+.containerIcono {
+  margin-top: 600px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.linea {
+  border: 0.25px solid white;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.bontonTraer {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.inputBuscador {
+  width: 200px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+}

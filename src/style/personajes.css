@@ -1,0 +1,72 @@
+.containerPersonajes {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.personajes {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: black;
+  border-radius: 25px;
+  border: 2px solid white;
+  height: auto;
+}
+
+.imagenPersonaje {
+  margin-top: 5px;
+  width: auto;
+  margin-right: 30px;
+  border: 1px solid white;
+  border-radius: 9px;
+}
+
+.infoPersonaje {
+  width: 50%;
+  margin-top: 20px;
+}
+
+h5,
+p {
+  color: white;
+}
+
+body {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0) 50%
+    ),
+    url("https://e1.pxfuel.com/desktop-wallpaper/873/692/desktop-wallpaper-interdimensional-rss-the-rick-and-morty-podcast-rick-and-morty-outer-space.jpg");
+  background-size: cover; /* Para cubrir toda la pantalla */
+  background-repeat: no-repeat; /* Para que no se repita */
+  height: 100vh; /* Para que ocupe el 100% del viewport height */
+  margin: 0; /* Para quitar el margen predeterminado del body */
+}
+
+.linea {
+  border: 0.25px solid white;
+
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.botonPersonaje {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 5px;
+  margin-top: 20px;
+  transition: 0.9s;
+}
+
+.botonPersonaje:hover {
+  background-color: white;
+  color: black;
+  transform: scale(1.1);
+  
+}
