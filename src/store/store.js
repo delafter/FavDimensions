@@ -5,6 +5,9 @@ const useStore = create((set) => ({
     personajes: [],
     personaje: {},
     resultadosBusqueda: [],
+    usuarios: [],
+    usuario: {},
+    
    
     
     getTraerPersonajes: async () => {
@@ -18,6 +21,8 @@ const useStore = create((set) => ({
             .then(data => set({personajes: data.results}))
             .catch(error => console.log('error', error));
     },
+
+   
 
 
     getTrearUnPersonaje: async (id) => {
@@ -49,18 +54,45 @@ const useStore = create((set) => ({
           set({ resultadosBusqueda: [] });
         });
     },
+  
+    // Traer usuarios
 
-     getPrueba: async () => {
+    getTraerUsuarios: async () => {
       const requestOptions = {
-        method: "GET",
-        redirect: "follow"
+        method: 'GET',
+        redirect: 'follow'
       };
-      
-      await fetch("http://localhost:3000/users/test", requestOptions)
-        .then((response) => response.json())
-        .then((result) => console.log(result))
-        .catch((error) => console.error(error));
+  
+      await fetch('http://localhost:3000/api/usuarios', requestOptions)
+        .then(response => response.json())
+        .then(data => set({ usuarios: data }))
+        .catch(error => console.log('error', error));
     },
+
+    //crear usuario
+
+    getCrearUsuario: async (email, password) => {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    
+    const raw = JSON.stringify({
+      "email": email,
+      "password": password,
+    });
+    
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+    
+    fetch("http://localhost:3000/api/usuarios", requestOptions)
+      .then((response) => response.json())
+      .then((result) => set( {usuario: result}))
+      .catch((error) => console.error(error));
+    },
+  
     
     
     

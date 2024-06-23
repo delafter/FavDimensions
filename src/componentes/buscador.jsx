@@ -40,13 +40,15 @@ export const Buscador = () => {
   };
 
   const {
-    getPrueba,
+    usuarios,
+    getTraerUsuarios,
     personajes,
     resultadosBusqueda,
     getTraerPersonajes,
     getBuscarPersonaje,
   } = useStore((state) => ({
-    getPrueba: state.getPrueba,
+    usuarios: state.usuarios,
+    getTraerUsuarios: state.getTraerUsuarios,
     personajes: state.personajes,
     resultadosBusqueda: state.resultadosBusqueda,
     getTraerPersonajes: state.getTraerPersonajes,
@@ -74,11 +76,11 @@ export const Buscador = () => {
   }, [getTraerPersonajes]);
 
   useEffect(() => {
-    getPrueba();
+    getTraerUsuarios();
     
   }, []);
 
-  console.log("error", getPrueba());
+  console.log(usuarios)
   return (
     <div>
       <Navbar />
