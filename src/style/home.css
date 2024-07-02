@@ -1,17 +1,84 @@
-.numero19{
-    border-radius: 50%;
-    cursor: pointer;
+.numero19 {
+  border-radius: 50%;
+  
 }
 
-.App{
-    background-color: black;
-    height: 100vh;
+.App {
+  background-color: black;
+  height: 100vh;
 }
 
 .fondoModal {
-    background-image: url('https://wallpapershigh.com/wp-content/uploads/rick-and-morty-portal-1-2.webp');
-    background-size: cover;
-   border: 2px solid white; /* Ajusta el grosor del borde según lo necesites */
-   border-radius: 10px; /* Agrega esquinas redondeadas */
+  background-image: url("https://wallpapershigh.com/wp-content/uploads/rick-and-morty-portal-1-2.webp");
+  background-size: cover;
+  border: 2px solid white; /* Ajusta el grosor del borde según lo necesites */
+  border-radius: 10px; /* Agrega esquinas redondeadas */
 }
 
+.questionCuenta {
+  color: white;
+  font-size: 20px;
+}
+
+.containerButtonsLogin {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+
+  width: 30%;
+  margin-left: 33%;
+}
+
+.containerLogin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 40px 0 20px 35px;
+}
+
+.containerSingUp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 40px 0 20px 60px;
+}
+
+.buttonLogin {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 5px;
+  transition: 0.9s;
+  width: 200px;
+}
+
+.buttonLogin:hover {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  transition: 0.9s;
+}
+
+.buttonSingUp {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 5px;
+  transition: 0.9s;
+  width: 200px;
+}
+
+.buttonSingUp:hover {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  transition: 0.9s;
+}

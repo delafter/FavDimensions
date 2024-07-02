@@ -81,10 +81,31 @@ const useStore = create((set) => ({
       redirect: "follow",
     };
 
-    fetch("http://localhost:3000/api/usuarios", requestOptions)
+    fetch("http://localhost:3000/api/usuarios/signup", requestOptions)
       .then((response) => response.json())
       .then((result) => set({ usuarios: result }))
       .catch((error) => console.error(error));
   },
+
+  //login usuario
+
+  getLoginUsuario: async (email, password) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+      redirect: "follow",
+    };
+
+    fetch("http://localhost:3000/api/usuarios/login", requestOptions)
+      .then((response) => response.json())
+      .then((result) => set({ usuario: result }))
+      .catch((error) => console.error(error));
+  },
+
+
 }));
 export default useStore;
