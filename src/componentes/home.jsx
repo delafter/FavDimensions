@@ -153,8 +153,7 @@ export const Home = () => {
         </Modal>
       }
 
-        // Aquí puedes añadir el modal para el login
-
+       
 
       {
         <Modal show={showLogin} onHide={handleCloseLogin}>
