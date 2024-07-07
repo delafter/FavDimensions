@@ -7,6 +7,10 @@ const useStore = create((set) => ({
   resultadosBusqueda: [],
   usuarios: [],
   usuario: {},
+  usuario_id: "",
+  token: "",
+
+ 
 
   getTraerPersonajes: async () => {
     const requestOptions = {
@@ -77,6 +81,7 @@ const useStore = create((set) => ({
       body: JSON.stringify({
         email: email,
         password: password,
+        
       }),
       redirect: "follow",
     };
@@ -102,9 +107,37 @@ const useStore = create((set) => ({
 
     fetch("http://localhost:3000/api/usuarios/login", requestOptions)
       .then((response) => response.json())
-      .then((result) => set({ usuario: result }))
+      .then((result) => set({ 
+        usuario: result,
+        usuario_id: result.data._id, 
+        token: result.token}))
+
+      
       .catch((error) => console.error(error));
   },
+
+  //logear usuario por id
+
+  getLoguearUsuario: async (id, email, password) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+       
+        email: email,
+        password: password,
+      }),
+
+
+    };
+
+    await fetch(`http://localhost:3000/api/usuarios/login/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => set({ usuario: data, usuario_id: id}))
+      .catch((error) => console.log("error", error));
+  },
+
+
 
 
 }));

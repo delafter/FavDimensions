@@ -6,8 +6,11 @@ import "../style/home.css";
 import Navbar from "./navbar";
 
 export const Home = () => {
-  const { personajes, getTraerPersonajes, crearUsuario, loginUsuario } = useStore(
+  const { personajes, getTraerPersonajes, crearUsuario, loginUsuario, loguearUsuario, usuario_id, token } = useStore(
     (state) => ({
+      token: state.token,
+      usuario_id: state.usuario_id,
+      loguearUsuario: state.getLoguearUsuario,
       loginUsuario: state.getLoginUsuario,
       crearUsuario: state.getCrearUsuario,
       personajes: state.personajes,
@@ -65,9 +68,9 @@ export const Home = () => {
     loginUsuario(loginEmail, loginPassword);
     /* (navigate("/buscador")); */
   };
-
-  console.log("correo", email, "password", password);
-  console.log("loginEmail", loginEmail, "loginPassword", loginPassword);
+  
+  console.log("usuario_id:", usuario_id, "token:", token);
+  
   return (
     <div>
       <Navbar />
