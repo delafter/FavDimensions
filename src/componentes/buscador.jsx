@@ -35,7 +35,7 @@ export const Buscador = () => {
   const handleCorazon = (id) => {
     setCorazonAnimado(id);
     setTimeout(() => {
-      setCorazonAnimado('');
+      setCorazonAnimado("");
     }, 1000);
   };
 
@@ -69,7 +69,12 @@ export const Buscador = () => {
 
   const [favorito, setFavorito] = useState([]);
 
-
+  const handleFavorito = (name) => {
+    setFavorito([favorito, name]);
+    if (favorito.includes(name)) {
+      favorito.splice(favorito.indexOf(name), 1);
+    }
+  };
 
   useEffect(() => {
     getTraerPersonajes();
@@ -77,14 +82,14 @@ export const Buscador = () => {
 
   useEffect(() => {
     getTraerUsuarios();
-    
   }, []);
-
-  console.log(usuarios)
+ 
+ 
   return (
     <div>
       <Navbar />
       <div style={{ "--background-color": color }} className="containerColor">
+        <div>favorito: {favorito}</div>
         <div className="row flex-row flex-nowrap overflow-auto">
           {resultadosBusqueda.length > 0
             ? resultadosBusqueda.map((personaje) => (
@@ -92,11 +97,19 @@ export const Buscador = () => {
                   <h6
                     style={{ marginTop: "30px", "--text-color": colorLetras }}
                   >
-                    {personaje.name}{" "}
+                    {personaje.name}
+                    {" "}
                     <FaRegHeart
-                      onClick={() => handleCorazon(personaje.id)}
-                      className={corazonAnimado === personaje.id ? "animate__animated animate__flip" : ""}
-                     />
+                      onClick={() =>{
+                        handleFavorito(personaje.name);
+                         handleCorazon(personaje.id);
+                        }}
+                      className={
+                        corazonAnimado === personaje.id
+                          ? "animate__animated animate__flip"
+                          : ""
+                      }
+                    />
                   </h6>
                   <img
                     style={{ marginBottom: "40px", "--box-shadow": boxShadow }}
@@ -114,10 +127,16 @@ export const Buscador = () => {
                   >
                     {personaje.name}{" "}
                     <FaRegHeart
-              
-                      onClick={() => handleCorazon(personaje.id)}
-                      className={corazonAnimado === personaje.id ? "animate__animated animate__flip" : ""}
-                     />
+                      onClick={() => {
+                        handleFavorito(personaje.name);
+                        handleCorazon(personaje.id);
+                      }}
+                      className={
+                        corazonAnimado === personaje.id
+                          ? "animate__animated animate__flip"
+                          : ""
+                      }
+                    />
                   </h6>
                   <img
                     style={{ marginBottom: "40px", "--box-shadow": boxShadow }}
@@ -156,7 +175,6 @@ export const Buscador = () => {
               {" "}
               Traer personajes
             </button>
-
           </div>
         </div>
 

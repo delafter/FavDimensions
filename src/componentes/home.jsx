@@ -58,10 +58,7 @@ export const Home = () => {
 
   const handleCrearUsuario = () => {
     crearUsuario(email, password);
-    setTimeout(() => {
-      setEmail("");
-      setPassword("");
-    }, 1000);
+   
   };
 
   const handleLoginUsuario = () => {
