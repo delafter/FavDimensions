@@ -153,7 +153,7 @@ const useStore = create((set) => ({
 
     fetch("http://localhost:3000/api/favoritos", requestOptions)
       .then((response) => response.json())
-      .then((result) =>  set((state) => ({ favoritos: [...state.favoritos, result] })))
+      .then((result) =>  /* set((state) => ({ favoritos: [...state.favoritos.resut, result] }))) */ set({ favoritos: result }))
       .catch((error) => console.error(error));
   }
 

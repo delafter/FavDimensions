@@ -88,7 +88,7 @@ export const Buscador = () => {
     getTraerUsuarios();
   }, []);
 
-  console.log(favoritos);
+  console.log("personajes favoritos:",favoritos);
  
   return (
     <div>
