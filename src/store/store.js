@@ -9,6 +9,7 @@ const useStore = create((set) => ({
   usuario: {},
   usuario_id: "",
   token: "",
+  favoritos: [],
 
  
 
@@ -136,6 +137,25 @@ const useStore = create((set) => ({
       .then((data) => set({ usuario: data, usuario_id: id}))
       .catch((error) => console.log("error", error));
   },
+
+  // guardar favoritos
+
+  getGuardarFavoritos: async ( name) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        
+        name: name,
+      }),
+      redirect: "follow",
+    };
+
+    fetch("http://localhost:3000/api/favoritos", requestOptions)
+      .then((response) => response.json())
+      .then((result) =>  set((state) => ({ favoritos: [...state.favoritos, result] })))
+      .catch((error) => console.error(error));
+  }
 
 
 

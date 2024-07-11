@@ -40,14 +40,16 @@ export const Buscador = () => {
   };
 
   const {
-    usuarios,
+    favoritos,
+    getGuardarFavoritos,
     getTraerUsuarios,
     personajes,
     resultadosBusqueda,
     getTraerPersonajes,
     getBuscarPersonaje,
   } = useStore((state) => ({
-    usuarios: state.usuarios,
+    favoritos: state.favoritos,
+    getGuardarFavoritos: state.getGuardarFavoritos,
     getTraerUsuarios: state.getTraerUsuarios,
     personajes: state.personajes,
     resultadosBusqueda: state.resultadosBusqueda,
@@ -73,6 +75,7 @@ export const Buscador = () => {
     setFavorito([favorito, name]);
     if (favorito.includes(name)) {
       favorito.splice(favorito.indexOf(name), 1);
+      getGuardarFavoritos(name);
     }
   };
 
@@ -81,9 +84,11 @@ export const Buscador = () => {
   }, [getTraerPersonajes]);
 
   useEffect(() => {
+    getGuardarFavoritos();
     getTraerUsuarios();
   }, []);
- 
+
+  console.log(favoritos);
  
   return (
     <div>
@@ -101,6 +106,7 @@ export const Buscador = () => {
                     {" "}
                     <FaRegHeart
                       onClick={() =>{
+                       
                         handleFavorito(personaje.name);
                          handleCorazon(personaje.id);
                         }}
