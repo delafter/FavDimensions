@@ -72,11 +72,17 @@ export const Buscador = () => {
   const [favorito, setFavorito] = useState([]);
 
   const handleFavorito = (name) => {
-    setFavorito([favorito, name]);
-    if (favorito.includes(name)) {
-      favorito.splice(favorito.indexOf(name), 1);
-      getGuardarFavoritos(name);
+    const updatedFavorito = [...favorito];
+    const index = updatedFavorito.indexOf(name);
+
+    if (index > -1) {
+      updatedFavorito.splice(index, 1);
+    } else {
+      updatedFavorito.push(name);
     }
+
+    setFavorito(updatedFavorito);
+    getGuardarFavoritos(name);
   };
 
   useEffect(() => {
@@ -88,13 +94,18 @@ export const Buscador = () => {
     getTraerUsuarios();
   }, []);
 
-  console.log("personajes favoritos:",favoritos);
- 
+  console.log("personajes favoritos:", favoritos);
+
   return (
     <div>
       <Navbar />
       <div style={{ "--background-color": color }} className="containerColor">
-        <div>favorito: {favorito}</div>
+        <div>favorito: {favorito} </div>
+        <div>
+          {favorito.length > 0
+            ? `Número de favoritos: ${favorito.length}`
+            : "No hay favoritos"}
+        </div>
         <div className="row flex-row flex-nowrap overflow-auto">
           {resultadosBusqueda.length > 0
             ? resultadosBusqueda.map((personaje) => (
@@ -102,14 +113,12 @@ export const Buscador = () => {
                   <h6
                     style={{ marginTop: "30px", "--text-color": colorLetras }}
                   >
-                    {personaje.name}
-                    {" "}
+                    {personaje.name}{" "}
                     <FaRegHeart
-                      onClick={() =>{
-                       
+                      onClick={() => {
                         handleFavorito(personaje.name);
-                         handleCorazon(personaje.id);
-                        }}
+                        handleCorazon(personaje.id);
+                      }}
                       className={
                         corazonAnimado === personaje.id
                           ? "animate__animated animate__flip"
