@@ -198,7 +198,7 @@ export const Buscador = () => {
                     {personaje.name}{" "}
                     <FaRegHeart
                       onClick={() => {
-                        handleFavorito(personaje.name);
+                        handleFavorito(personaje.name, personaje.id);
                         handleCorazon(personaje.id);
                       }}
                       className={
