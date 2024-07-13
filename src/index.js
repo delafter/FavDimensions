@@ -9,6 +9,9 @@ import Buscador from './componentes/buscador';
 import Personajes from './componentes/personajes';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './componentes/navbar';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 
 
 

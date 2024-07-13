@@ -10,8 +10,7 @@ const useStore = create((set) => ({
   usuario_id: "",
   token: "",
   favoritos: [],
-
- 
+  personajeFavorito: [],
 
   getTraerPersonajes: async () => {
     const requestOptions = {
@@ -82,7 +81,6 @@ const useStore = create((set) => ({
       body: JSON.stringify({
         email: email,
         password: password,
-        
       }),
       redirect: "follow",
     };
@@ -108,12 +106,14 @@ const useStore = create((set) => ({
 
     fetch("http://localhost:3000/api/usuarios/login", requestOptions)
       .then((response) => response.json())
-      .then((result) => set({ 
-        usuario: result,
-        usuario_id: result.data._id, 
-        token: result.token}))
+      .then((result) =>
+        set({
+          usuario: result,
+          usuario_id: result.data._id,
+          token: result.token,
+        })
+      )
 
-      
       .catch((error) => console.error(error));
   },
 
@@ -123,29 +123,30 @@ const useStore = create((set) => ({
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-       
+      body: JSON.stringify({
         email: email,
         password: password,
       }),
-
-
     };
 
-    await fetch(`http://localhost:3000/api/usuarios/login/${id}`, requestOptions)
+    await fetch(
+      `http://localhost:3000/api/usuarios/login/${id}`,
+      requestOptions
+    )
       .then((response) => response.json())
-      .then((data) => set({ usuario: data, usuario_id: id}))
+      .then((data) => set({ usuario: data, usuario_id: id }))
       .catch((error) => console.log("error", error));
   },
 
   // guardar favoritos
 
-  getGuardarFavoritos: async ( name) => {
+  getGuardarFavoritos: async (name, id) => {
+    console.log("console de la funcion",name, id);
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        
+        id: id,
         name: name,
       }),
       redirect: "follow",
@@ -153,12 +154,26 @@ const useStore = create((set) => ({
 
     fetch("http://localhost:3000/api/favoritos", requestOptions)
       .then((response) => response.json())
-      .then((result) =>  /* set((state) => ({ favoritos: [...state.favoritos.resut, result] }))) */ set({ favoritos: result }))
+      .then((result) => set({ favoritos: result }))
       .catch((error) => console.error(error));
-  }
+  },
 
+  getTraerFavoritos: async () => {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
 
-
-
+    await fetch("http://localhost:3000/api/favoritos", requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && Array.isArray(data.data)) {
+          set({ personajeFavorito: data.data });
+        } else {
+          console.error("La respuesta de la API no es un array:", data);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  },
 }));
 export default useStore;

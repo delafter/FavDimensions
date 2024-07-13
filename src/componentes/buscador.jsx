@@ -40,6 +40,8 @@ export const Buscador = () => {
   };
 
   const {
+    personajeFavorito,
+    getTraerFavoritos,
     favoritos,
     getGuardarFavoritos,
     getTraerUsuarios,
@@ -48,6 +50,8 @@ export const Buscador = () => {
     getTraerPersonajes,
     getBuscarPersonaje,
   } = useStore((state) => ({
+    personajeFavorito: state.personajeFavorito,
+    getTraerFavoritos: state.getTraerFavoritos,
     favoritos: state.favoritos,
     getGuardarFavoritos: state.getGuardarFavoritos,
     getTraerUsuarios: state.getTraerUsuarios,
@@ -71,41 +75,92 @@ export const Buscador = () => {
 
   const [favorito, setFavorito] = useState([]);
 
-  const handleFavorito = (name) => {
+  const handleFavorito = (name, id) => {
+    console.log("name:", name, "id:", id);
     const updatedFavorito = [...favorito];
-    const index = updatedFavorito.indexOf(name);
+    const index = updatedFavorito.indexOf(name, id);
 
     if (index > -1) {
       updatedFavorito.splice(index, 1);
     } else {
-      updatedFavorito.push(name);
+      updatedFavorito.push(name, id);
     }
 
     setFavorito(updatedFavorito);
-    getGuardarFavoritos(name);
+    getGuardarFavoritos(name, id);
+    getTraerFavoritos();
   };
 
   useEffect(() => {
     getTraerPersonajes();
-  }, [getTraerPersonajes]);
+  }, [getTraerPersonajes, getTraerFavoritos]);
 
   useEffect(() => {
     getGuardarFavoritos();
     getTraerUsuarios();
   }, []);
 
-  console.log("personajes favoritos:", favoritos);
+  useEffect(() => {
+    getTraerFavoritos();
+  }, [getTraerFavoritos]);
 
+  
+  console.log("personajeFavorito:", personajeFavorito);
   return (
     <div>
       <Navbar />
-      <div style={{ "--background-color": color }} className="containerColor">
-        <div>favorito: {favorito} </div>
-        <div>
-          {favorito.length > 0
-            ? `Número de favoritos: ${favorito.length}`
-            : "No hay favoritos"}
+      <div
+        className="offcanvas offcanvas-start"
+        tabIndex="-1"
+        id="offcanvasExample"
+        aria-labelledby="offcanvasExampleLabel"
+      >
+        <div className="offcanvas-header">
+          <h5 className="offcanvas-title" id="offcanvasExampleLabel">
+            Offcanvas
+          </h5>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
         </div>
+        <div className="offcanvas-body">
+          <div>
+            <h6>P E R S O N A J E S F A V O R I T O S</h6>
+          </div>
+          <div className="dropdown mt-3">
+            <div>
+              {" "}
+              
+              {personajeFavorito.map((personaje) => (
+                <div key={personaje.id}>
+
+                  <h6 style={{cursor: "pointer"}}
+                  onClick={() => navigate(`/personajes/${personaje.id}`)}
+                  >{personaje.name}
+                  </h6>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>{" "}
+      <div style={{ "--background-color": color }} className="containerColor">
+        <button
+          style={{ marginTop: "30px", "--text-color": colorLetras }}
+          className="btn btn-primary"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasExample"
+          aria-controls="offcanvasExample"
+        >
+          Favoritos{" "}
+          { personajeFavorito.length > 0
+            ? `${personajeFavorito.length}`
+            : ""}
+        </button>{" "}
         <div className="row flex-row flex-nowrap overflow-auto">
           {resultadosBusqueda.length > 0
             ? resultadosBusqueda.map((personaje) => (
@@ -116,7 +171,7 @@ export const Buscador = () => {
                     {personaje.name}{" "}
                     <FaRegHeart
                       onClick={() => {
-                        handleFavorito(personaje.name);
+                        handleFavorito(personaje.name, personaje.id);
                         handleCorazon(personaje.id);
                       }}
                       className={
@@ -163,7 +218,6 @@ export const Buscador = () => {
                 </div>
               ))}
         </div>
-
         <div className="container">
           <div className="buscador">
             <h1 style={{ "--text-color": colorLetras }}>
@@ -192,7 +246,6 @@ export const Buscador = () => {
             </button>
           </div>
         </div>
-
         <div className="containerIcono">
           <FaRegMoon
             className="icono"
