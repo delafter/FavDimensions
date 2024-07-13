@@ -136,7 +136,7 @@ export const Home = () => {
               padding: 10,
             }}
           >
-            <Button
+            <Button style={{ backgroundColor: "trasparent", color: "white" }}
               variant="primary"
               onClick={() => {
                 handleCloseSignUp();
@@ -146,8 +146,11 @@ export const Home = () => {
             >
               Sign up
             </Button>
-            <Button variant="secondary" onClick={handleCloseSignUp}>
-              Cerrar
+            <Button 
+            style={{ backgroundColor: "trasparent", color: "white", marginLeft: "40px" }}
+            variant="secondary" 
+            onClick={handleCloseSignUp}>
+              Close
             </Button>
           </Modal.Footer>
         </Modal>
@@ -222,6 +225,7 @@ export const Home = () => {
             }}
           >
             <Button
+              style={{ backgroundColor: "trasparent", color: "white" }}
               variant="primary"
               onClick={() => {
                 handleCloseLogin();
@@ -230,8 +234,11 @@ export const Home = () => {
             >
               Login
             </Button>
-            <Button variant="secondary" onClick={handleCloseLogin}>
-              Cerrar
+            <Button 
+            style={{ backgroundColor: "trasparent", color: "white", border: "white", marginLeft: "40px"}}
+            variant="secondary" 
+            onClick={handleCloseLogin}>
+              Close
             </Button>
           </Modal.Footer>
         </Modal>
