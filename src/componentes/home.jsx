@@ -6,17 +6,23 @@ import "../style/home.css";
 import Navbar from "./navbar";
 
 export const Home = () => {
-  const { personajes, getTraerPersonajes, crearUsuario, loginUsuario, loguearUsuario, usuario_id, token } = useStore(
-    (state) => ({
-      token: state.token,
-      usuario_id: state.usuario_id,
-      loguearUsuario: state.getLoguearUsuario,
-      loginUsuario: state.getLoginUsuario,
-      crearUsuario: state.getCrearUsuario,
-      personajes: state.personajes,
-      getTraerPersonajes: state.getTraerPersonajes,
-    })
-  );
+  const {
+    personajes,
+    getTraerPersonajes,
+    crearUsuario,
+    loginUsuario,
+    /* loguearUsuario, */
+    usuario_id,
+    token,
+  } = useStore((state) => ({
+    token: state.token,
+    usuario_id: state.usuario_id,
+    /* loguearUsuario: state.getLoguearUsuario, */
+    loginUsuario: state.getLoginUsuario,
+    crearUsuario: state.getCrearUsuario,
+    personajes: state.personajes,
+    getTraerPersonajes: state.getTraerPersonajes,
+  }));
 
   const navigate = useNavigate();
   const [showSignUp, setShowSignUp] = useState(false);
@@ -28,7 +34,7 @@ export const Home = () => {
 
   const handleCloseSignUp = () => setShowSignUp(false);
   const handleShowSignUp = () => setShowSignUp(true);
-  
+
   const handleCloseLogin = () => setShowLogin(false);
   const handleShowLogin = () => setShowLogin(true);
 
@@ -58,16 +64,34 @@ export const Home = () => {
 
   const handleCrearUsuario = () => {
     crearUsuario(email, password);
-   
   };
 
   const handleLoginUsuario = () => {
     loginUsuario(loginEmail, loginPassword);
-    /* (navigate("/buscador")); */
+   /*  if (usuario_id && token) {
+      loguearUsuario(usuario_id, loginEmail, loginPassword);
+      navigate("/buscador");
+    } */
   };
-  
+
+/*   useEffect(() => {
+    if (token !== null) {
+      navigate("/buscador");
+    };
+  }, [token]); */
+
+  useEffect(() => {
+    if (usuario_id && token) {
+      loginUsuario(usuario_id, loginEmail, loginPassword);
+      navigate("/buscador");
+      console.log("Se logueo correctamente usuario con id:", usuario_id);
+    } else {
+      console.log("No se pudo loguear");
+    }},[usuario_id, token]);
+
+
   console.log("usuario_id:", usuario_id, "token:", token);
-  
+
   return (
     <div>
       <Navbar />
@@ -85,9 +109,7 @@ export const Home = () => {
                 width: "100%",
               }}
             >
-              <Modal.Title style={{ color: "white" }}>
-                SIGN UP
-              </Modal.Title>
+              <Modal.Title style={{ color: "white" }}>SIGN UP</Modal.Title>
             </div>
           </Modal.Header>
           <Modal.Body className="fondoModal" style={{ margin: 0 }}>
@@ -121,7 +143,7 @@ export const Home = () => {
                   backgroundColor: "transparent",
                   color: "white",
                 }}
-              />  
+              />
             </div>
           </Modal.Body>
 
@@ -136,27 +158,30 @@ export const Home = () => {
               padding: 10,
             }}
           >
-            <Button style={{ backgroundColor: "trasparent", color: "white" }}
+            <Button
+              style={{ backgroundColor: "trasparent", color: "white" }}
               variant="primary"
               onClick={() => {
                 handleCloseSignUp();
                 handleCrearUsuario();
-              
               }}
             >
               Sign up
             </Button>
-            <Button 
-            style={{ backgroundColor: "trasparent", color: "white", marginLeft: "40px" }}
-            variant="secondary" 
-            onClick={handleCloseSignUp}>
+            <Button
+              style={{
+                backgroundColor: "trasparent",
+                color: "white",
+                marginLeft: "40px",
+              }}
+              variant="secondary"
+              onClick={handleCloseSignUp}
+            >
               Close
             </Button>
           </Modal.Footer>
         </Modal>
       }
-
-       
 
       {
         <Modal show={showLogin} onHide={handleCloseLogin}>
@@ -172,9 +197,7 @@ export const Home = () => {
                 width: "100%",
               }}
             >
-              <Modal.Title style={{ color: "white" }}>
-                LOGIN
-              </Modal.Title>
+              <Modal.Title style={{ color: "white" }}>LOGIN</Modal.Title>
             </div>
           </Modal.Header>
           <Modal.Body className="fondoModal" style={{ margin: 0 }}>
@@ -186,7 +209,6 @@ export const Home = () => {
                 paddingLeft: "100px",
               }}
             >
-             
               <input
                 value={loginEmail}
                 onChange={handleLoginEmail}
@@ -209,7 +231,7 @@ export const Home = () => {
                   backgroundColor: "transparent",
                   color: "white",
                 }}
-              />  
+              />
             </div>
           </Modal.Body>
 
@@ -234,10 +256,16 @@ export const Home = () => {
             >
               Login
             </Button>
-            <Button 
-            style={{ backgroundColor: "trasparent", color: "white", border: "white", marginLeft: "40px"}}
-            variant="secondary" 
-            onClick={handleCloseLogin}>
+            <Button
+              style={{
+                backgroundColor: "trasparent",
+                color: "white",
+                border: "white",
+                marginLeft: "40px",
+              }}
+              variant="secondary"
+              onClick={handleCloseLogin}
+            >
               Close
             </Button>
           </Modal.Footer>
@@ -253,7 +281,6 @@ export const Home = () => {
         {personajeNumero19 && (
           <div key={personajeNumero19.id}>
             <img
-             
               className="numero19"
               src={personajeNumero19.image}
               alt={personajeNumero19.name}
@@ -262,10 +289,14 @@ export const Home = () => {
         )}
         <div className="containerButtonsLogin">
           <div className="containerLogin">
-            <button onClick={handleShowSignUp} className="buttonLogin">Sign Up</button>
+            <button onClick={handleShowSignUp} className="buttonLogin">
+              Sign Up
+            </button>
           </div>
           <div className="containerSingUp">
-            <button onClick={handleShowLogin} className="buttonSingUp">Login</button>
+            <button onClick={handleShowLogin} className="buttonSingUp">
+              Login
+            </button>
           </div>
         </div>
       </div>

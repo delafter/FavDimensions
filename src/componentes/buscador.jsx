@@ -40,21 +40,29 @@ export const Buscador = () => {
   };
 
   const {
-    personajeFavorito,
+    getEliminarFavoritos,
+
+    userId,
+    id,
     getTraerFavoritos,
     favoritos,
     getGuardarFavoritos,
-    getTraerUsuarios,
+    getTraerUsuario,
     personajes,
     resultadosBusqueda,
     getTraerPersonajes,
     getBuscarPersonaje,
   } = useStore((state) => ({
+    id: state.id,
+    getEliminarFavoritos: state.getEliminarFavoritos,
+    usuario_id: state.usuario_id,
+    usuario: state.usuario,
+    userId: state.userId,
     personajeFavorito: state.personajeFavorito,
     getTraerFavoritos: state.getTraerFavoritos,
     favoritos: state.favoritos,
     getGuardarFavoritos: state.getGuardarFavoritos,
-    getTraerUsuarios: state.getTraerUsuarios,
+    getTraerUsuario: state.getTraerUsuario,
     personajes: state.personajes,
     resultadosBusqueda: state.resultadosBusqueda,
     getTraerPersonajes: state.getTraerPersonajes,
@@ -71,24 +79,26 @@ export const Buscador = () => {
 
   const traerPersonajes = () => {
     window.location.reload();
+    getTraerFavoritos(userId);
   };
 
   const [favorito, setFavorito] = useState([]);
 
   const handleFavorito = (name, id) => {
-    console.log("name:", name, "id:", id);
+    console.log("userId:", userId);
+    console.log("favorito:", favorito);
+
     const updatedFavorito = [...favorito];
     const index = updatedFavorito.indexOf(name, id);
 
     if (index > -1) {
       updatedFavorito.splice(index, 1);
     } else {
-      updatedFavorito.push(name, id);
+      updatedFavorito.push(name, id, userId);
     }
 
     setFavorito(updatedFavorito);
-    getGuardarFavoritos(name, id);
-    getTraerFavoritos();
+    getGuardarFavoritos(name, id, userId); // Asegúrate de pasar userId aquí
   };
 
   useEffect(() => {
@@ -97,15 +107,15 @@ export const Buscador = () => {
 
   useEffect(() => {
     getGuardarFavoritos();
-    getTraerUsuarios();
+    getTraerUsuario();
   }, []);
 
   useEffect(() => {
-    getTraerFavoritos();
-  }, [getTraerFavoritos]);
+    if (userId) {
+      getTraerFavoritos(userId); // Pasa userId aquí
+    }
+  }, [userId, getTraerFavoritos]);
 
-  
-  console.log("personajeFavorito:", personajeFavorito);
   return (
     <div>
       <Navbar />
@@ -119,6 +129,7 @@ export const Buscador = () => {
           <h5 className="offcanvas-title" id="offcanvasExampleLabel">
             Offcanvas
           </h5>
+
           <button
             type="button"
             className="btn-close"
@@ -132,17 +143,32 @@ export const Buscador = () => {
           </div>
           <div className="dropdown mt-3">
             <div>
-              {" "}
-              
-              {personajeFavorito.map((personaje) => (
-                <div key={personaje.id}>
-
-                  <h6 style={{cursor: "pointer"}}
-                  onClick={() => navigate(`/personajes/${personaje.id}`)}
-                  >{personaje.name}
-                  </h6>
-                </div>
-              ))}
+              {favoritos && favoritos.length > 0 ? (
+                favoritos.map((favorito) => (
+                  <div key={favorito.id}>
+                    <h6
+                      style={{ cursor: "pointer", backgroundColor: "red", display: "flex", justifyContent: "center" }}
+                      onClick={() => navigate(`/personajes/${favorito.id}`)}
+                    >
+                      {favorito.name}{" "}
+                     
+                    </h6>
+                    <button 
+                        className="botonEliminar"
+                        style={{ marginLeft: "20px" }}
+                        onClick={() => {
+                          getEliminarFavoritos(favorito.id, userId);
+                          console.log("eliminado a", favorito.name);
+                          getTraerFavoritos(userId);
+                        }}
+                      >
+                        eliminar
+                      </button>
+                  </div>
+                ))
+              ) : (
+                <h6>No tienes personajes favoritos.</h6>
+              )}
             </div>
           </div>
         </div>
@@ -156,10 +182,7 @@ export const Buscador = () => {
           data-bs-target="#offcanvasExample"
           aria-controls="offcanvasExample"
         >
-          Favoritos{" "}
-          { personajeFavorito.length > 0
-            ? `${personajeFavorito.length}`
-            : ""}
+          Favoritos {favoritos.length > 0 ? `${favoritos.length}` : ""}
         </button>{" "}
         <div className="row flex-row flex-nowrap overflow-auto">
           {resultadosBusqueda.length > 0

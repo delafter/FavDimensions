@@ -8,9 +8,11 @@ const useStore = create((set) => ({
   usuarios: [],
   usuario: {},
   usuario_id: "",
+  userId: "",
   token: "",
   favoritos: [],
   personajeFavorito: [],
+  id: "",
 
   getTraerPersonajes: async () => {
     const requestOptions = {
@@ -111,69 +113,102 @@ const useStore = create((set) => ({
           usuario: result,
           usuario_id: result.data._id,
           token: result.token,
+          userId: result.data._id,
+          // llamar a la funcion traer favoritos para que se ejecute al loguear
+          
         })
       )
 
       .catch((error) => console.error(error));
   },
+  // traer usuario
 
-  //logear usuario por id
-
-  getLoguearUsuario: async (id, email, password) => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-    };
-
-    await fetch(
-      `http://localhost:3000/api/usuarios/login/${id}`,
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((data) => set({ usuario: data, usuario_id: id }))
-      .catch((error) => console.log("error", error));
-  },
-
-  // guardar favoritos
-
-  getGuardarFavoritos: async (name, id) => {
-    console.log("console de la funcion",name, id);
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        id: id,
-        name: name,
-      }),
-      redirect: "follow",
-    };
-
-    fetch("http://localhost:3000/api/favoritos", requestOptions)
-      .then((response) => response.json())
-      .then((result) => set({ favoritos: result }))
-      .catch((error) => console.error(error));
-  },
-
-  getTraerFavoritos: async () => {
+  getTraerUsuario: async (id) => {
     const requestOptions = {
       method: "GET",
       redirect: "follow",
     };
 
-    await fetch("http://localhost:3000/api/favoritos", requestOptions)
+    await fetch(`http://localhost:3000/api/usuarios/${id}`, requestOptions)
       .then((response) => response.json())
-      .then((data) => {
-        if (data && Array.isArray(data.data)) {
-          set({ personajeFavorito: data.data });
-        } else {
-          console.error("La respuesta de la API no es un array:", data);
-        }
-      })
+      .then((data) => set({ usuario: data }))
       .catch((error) => console.log("error", error));
   },
+
+  
+
+
+  // guardar favoritos de un usuario
+
+  getGuardarFavoritos: async (name, id, userId) => {
+    
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, name, userId }),
+      redirect: "follow",
+    };
+  
+    try {
+      const response = await fetch(`http://localhost:3000/api/favoritos/${userId}`, requestOptions);
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+  
+      const result = await response.json();
+      set((state) => ({
+        favoritos: [...state.favoritos, result.data],
+      }));
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  },
+  
+  
+
+  // traer favoritos de un usuario
+
+  getTraerFavoritos: async (userId) => {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+  
+    try {
+      const response = await fetch(`http://localhost:3000/api/favoritos/${userId}`, requestOptions);
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      const data = await response.json();
+      set({ favoritos: data.data || [] }); // Asegúrate de que favoritos sea un arreglo
+    } catch (error) {
+      console.log("Error al obtener favoritos:", error);
+    }
+  },
+
+  //eliminar favoritos de un usuario
+
+  getEliminarFavoritos: async (id, userId) => {
+    const requestOptions = {
+      method: "DELETE",
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/favoritos/${userId}/${id}`, requestOptions);
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      const result = await response.json();
+      set((state) => ({
+        favoritos: state.favoritos.filter((favorito) => favorito._id !== id),
+      }));
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  },
+  
+  
+
 }));
 export default useStore;

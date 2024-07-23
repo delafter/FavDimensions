@@ -104,3 +104,16 @@ h1 {
   color: var(--background-color);
   box-shadow: none;
 }
+
+.botonEliminar {
+ color: red;
+ transition: 0.9s;
+}
+
+.botonEliminar:hover {
+  color: white;
+  background-color: red;
+  transform: scale(1.5);
+  transition: 0.9s;
+}
+
